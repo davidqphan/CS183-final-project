@@ -1,6 +1,38 @@
-\documentclass{article}
+\documentclass{article}[config]
 \usepackage[utf8]{inputenc}
+\usepackage{macros}
 
 \begin{document}
-(Type your content here.)
+
+\title{Acme, Corporation}
+\subtitle{The Master Plan}
+
+%-------AUTHORS-------%
+\input{authors}
+\maketitle
+
+%-------NETWORK ACCESS-------%
+\input{network-access/main}
+
+%-------NFS-------%
+\input{nfs/main}
+
+%-------WEBSERVER-------%
+\input{webserver/main}
+
+%-------EMAIL-------%
+\input{email/main}
+
+%-------FIREWALL & SECURITY-------%
+\input{firewall/main}
+
+%-------ACTIVE DIRECTORY-------%
+\input{ad/main}
+
+%-------DNS / DHCP-------%
+\input{dns-dhcp/main}
+
+%-------CONFIGURATION MANAGEMENT-------%
+\input{config-management/main}
+
 \end{document}
