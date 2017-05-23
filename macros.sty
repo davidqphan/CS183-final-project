@@ -1,0 +1,27 @@
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+
+\usepackage{graphicx} 
+\usepackage{listings}
+% \usepackage[noabbrev]{cleveref}
+\usepackage[capitalize]{cleveref}
+	\Crefname{figure}{Fig.}{Fig.}
+	\crefname{figure}{Fig.}{Fig.}
+\usepackage{minted}
+\usepackage{subcaption}
+
+\newcommand{\cL}{{\cal L}}
+\newcommand{\eg}{\textit{e.g.\ }}
+\newcommand\upper[1]{\ifnum\ifhmode\spacefactor\else2000\fi>1000 \uppercase{#1}\else#1\fi}
+
+\newcommandx{\tyson}[2][1=]{\todo[linecolor=red,backgroundcolor=green!25,bordercolor=red,#1]{#2}}
+\newcommandx{\joel}[2][1=]{\todo[linecolor=orange,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\matt}[2][1=]{\todo[linecolor=yellow, backgroundcolor=yellow!25,bordercolor=orange,#1]{#2}}
+\newcommandx{\david}[2][1=]{\todo[linecolor=blue, backgroundcolor=orange!25,bordercolor=black,#1]{#2}}
+\newcommandx{\john}[2][1=]{\todo[linecolor=black, backgroundcolor=green!25,bordercolor=black,#1]{#2}}
+\newcommandx{\nick}[2][1=]{\todo[linecolor=purple, backgroundcolor=pink!25,bordercolor=black,#1]{#2}}
