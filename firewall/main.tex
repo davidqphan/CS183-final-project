@@ -1,1 +1,164 @@
 \section{Firewall \& Security}
+
+\begin{center}
+
+\resizebox{\textwidth}{!}{\begin{tabular}[m]{| c | c | c | c | c | c | c | c |}
+\hline
+  \multicolumn{8}{|c|}{Router 1}\\
+\hline
+From Zone & To Zone & SRC ADDR & DST ADDR & SRC Port & DST Port & App & Deny / Allow \\
+\hline
+Trusted & Trusted & 10.1.110.0/24 &	Any	& Any &	Any & Any & Allow \\
+\hline
+Trusted & Trusted & 10.1.150.0/24 &	Any	& Any &	Any & Any & Deny \\
+\hline
+Trusted & Trusted & 10.1.130.0/24 &	10.1.140.0/24 & Any & Any & Any & Allow \\
+\hline
+Trusted & Trusted & 10.1.140.0/24 &	10.1.130.0/24 & Any & Any & Any & Allow \\
+\hline
+Trusted & Trusted & 10.1.120.0/24 & Any & Any & Any & Any & Allow \\
+\hline
+Trusted & Trusted & 10.1.120.0/24 & 10.1.110.0/24 & Any & Any & Any & Deny \\
+\hline
+Trusted & Server & Any & 10.1.160.0/24 & Any & 53, 389, 994 & Any &	Allow \\
+\hline
+Server & Trusted & 10.1.160.0/24 & Any & Any & 53, 389, 994 & Any & Allow \\
+\hline
+Trusted & Server & 10.1.120.0/24 & 10.1.160.0/24 & Any & 3306 & Any & Allow \\
+\hline
+Server & Trusted & 10.1.160.0/24 & 10.1.120.0/24 & Any	& 3306 & Any & Allow \\
+\hline
+Trusted & DMZ & Any & 10.1.170.0/24 & Any & 25, 993, 80, 443 & Any & Allow \\
+\hline
+DMZ & Trusted & 10.1.170.0/24 & Any & Any & 25, 993, 80, 443 & Any & Allow \\
+\hline
+Any	& Any & Any & Any & Any & Any & Any & Deny \\
+\hline
+\end{tabular}}
+
+\vspace{2.5em}
+
+\resizebox{\textwidth}{!}{\begin{tabular}[m]{| c | c | c | c | c | c | c | c |}
+\hline
+  \multicolumn{8}{|c|}{Router 2}\\
+\hline
+From Zone & To Zone & SRC ADDR & DST ADDR & SRC Port & DST Port & App & Deny / Allow \\
+\hline
+Trusted & Trusted & 10.1.110.0/24 &	Any	& Any &	Any & Any & Allow \\
+\hline
+Trusted & Trusted & 10.1.150.0/24 &	Any	& Any &	Any & Any & Deny \\
+\hline
+Trusted & Trusted & 10.1.130.0/24 &	10.1.140.0/24 & Any & Any & Any & Allow \\
+\hline
+Trusted & Trusted & 10.1.140.0/24 &	10.1.130.0/24 & Any & Any & Any & Allow \\
+\hline
+Trusted & Trusted & 10.1.120.0/24 & Any & Any & Any & Any & Allow \\
+\hline
+Trusted & Trusted & 10.1.120.0/24 & 10.1.110.0/24 & Any & Any & Any & Deny \\
+\hline
+Trusted & Server & Any & 10.1.160.0/24 & Any & 53, 389, 994 & Any &	Allow \\
+\hline
+Server & Trusted & 10.1.160.0/24 & Any & Any & 53, 389, 994 & Any & Allow \\
+\hline
+Trusted & Server & 10.1.120.0/24 & 10.1.160.0/24 & Any & 3306 & Any & Allow \\
+\hline
+Server & Trusted & 10.1.160.0/24 & 10.1.120.0/24 & Any	& 3306 & Any & Allow \\
+\hline
+Trusted & DMZ & Any & 10.1.170.0/24 & Any & 25, 993, 80, 443 & Any & Allow \\
+\hline
+DMZ & Trusted & 10.1.170.0/24 & Any & Any & 25, 993, 80, 443 & Any & Allow \\
+\hline
+Any	& Any & Any & Any & Any & Any & Any & Deny \\
+\hline
+\end{tabular}}
+
+\vspace{2.5em}
+
+\resizebox{\textwidth}{!}{\begin{tabular}[m]{| c | c | c | c | c | c | c | c |}
+\hline
+  \multicolumn{8}{|c|}{Router 3}\\
+\hline
+From Zone & To Zone & SRC ADDR & DST ADDR & SRC Port & DST Port & App & Deny / Allow \\
+\hline
+Trusted & DMZ & 10.1.0.0/24 & 10.1.170.0/24 & Any &	25 ,993 , 80, 443 & Any & Allow \\
+\hline
+DMZ & Trusted & 10.1.170.0/24 & 10.1.0.0/24 & Any &	25, 993, 80, 443 & Any & Allow \\
+\hline
+Server & DMZ & 10.1.160.0/24 & 10.1.170.0/24 & Any & 3306 & Any & Allow \\
+\hline
+DMZ & Server & 10.1.170.0/24 & 10.1.160.0/24 & Any & 3306 & Any & Allow \\
+\hline
+Any	& Any & Any & Any & Any & Any & Any & Deny \\
+\hline
+\end{tabular}}
+
+\vspace{2.5em}
+
+\resizebox{\textwidth}{!}{\begin{tabular}[m]{| c | c | c | c | c | c | c | c |}
+\hline
+  \multicolumn{8}{|c|}{Router 4}\\
+\hline
+From Zone & To Zone & SRC ADDR & DST ADDR & SRC Port & DST Port & App & Deny / Allow \\
+\hline
+Server & Server & Any & Any & Any & Any & Any & Allow \\
+\hline
+Trusted & Server & 10.1.0.0/24 & Any & Any & 53, 389, 994 & Any & Allow \\
+\hline
+Server & Trusted & 10.1.160.0/24 & 10.1.0.0/24 & Any & 53, 389, 994 & Any & Allow \\
+\hline
+DMZ & Trusted & 10.1.170.0/24 & 10.1.0.0/24 & Any &	25, 993, 80, 443 & Any & Allow \\
+\hline
+Trusted & Server & 10.1.120.0/24 & 10.1.160.0/24 & Any & 3306 & Any & Allow \\
+\hline
+Server & Trusted & 10.1.160.0/24 & 10.1.120.0/24 & Any	& 3306 & Any & Allow \\
+\hline
+Server & DMZ & 10.1.160.0/24 & 10.1.170.0/24 & Any & 3306 & Any & Allow \\
+\hline
+DMZ & Server & 10.1.170.0/24 & Any & Any & 3306 & Any & Allow \\
+\hline
+Any	& Any & Any & Any & Any & Any & Any & Deny \\
+\hline
+\end{tabular}}
+
+\vspace{2.5em}
+
+\resizebox{\textwidth}{!}{\begin{tabular}[m]{| c | c | c | c | c | c | c | c |}
+\hline
+  \multicolumn{8}{|c|}{Router 6}\\
+\hline
+From Zone & To Zone & SRC ADDR & DST ADDR & SRC Port & DST Port & App & Deny / Allow \\
+\hline
+Trusted & DMZ & 10.1.0.0/24 & 10.1.170.0/24 & Any &	25 ,993 , 80, 443 & Any & Allow \\
+\hline
+DMZ & Trusted & 10.1.170.0/24 & 10.1.0.0/24 & Any &	25, 993, 80, 443 & Any & Allow \\
+\hline
+Server & DMZ & 10.1.160.0/24 & 10.1.170.0/24 & Any & 3306 & Any & Allow \\
+\hline
+DMZ & Server & 10.1.170.0/24 & 10.1.160.0/24 & Any & 3306 & Any & Allow \\
+\hline
+Any	& Any & Any & Any & Any & Any & Any & Deny \\
+\hline
+\end{tabular}}
+
+\vspace{2.5em}
+
+\resizebox{\textwidth}{!}{\begin{tabular}[m]{| c | c | c | c | c | c | c | c |}
+\hline
+  \multicolumn{8}{|c|}{Firewall}\\
+\hline
+From Zone & To Zone & SRC ADDR & DST ADDR & SRC Port & DST Port & App & Deny / Allow \\
+\hline
+Trusted & DMZ & 10.1.0.0/24 & 10.1.170.0/24 & Any &	80, 443 & Meme.com & Deny \\
+\hline
+DMZ & Trusted & 10.1.170.0/24 & 10.1.0.0/24 & Any &	25, 993, 80, 443 & Any & Allow \\
+\hline
+Server & DMZ & 10.1.160.0/24 & 10.1.170.0/24 & Any & 3306 & Any & Allow \\
+\hline
+DMZ & Server & 10.1.170.0/24 & 10.1.160.0/24 & Any & 3306 & Any & Allow \\
+\hline
+Any	& Any & Any & Any & Any & Any & Any & Deny \\
+\hline
+\end{tabular}}
+
+
+\end{center}
