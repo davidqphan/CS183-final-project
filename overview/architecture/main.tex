@@ -10,6 +10,8 @@ event that physical separation is not feasible), while maintaining separation.
 
 \noindent The VLANs are assigned as follows:
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\setlength{\extrarowheight}{1ex}%
+\renewcommand{\arraystretch}{1}%
 \begin{center}
     \begin{tabular}{|P{2.0cm}|P{1.2cm}|P{4.0cm}|}
     \hline
@@ -32,6 +34,8 @@ event that physical separation is not feasible), while maintaining separation.
 \end{tabular}
 \end{center}
 
+\vspace{1em}
+
 \noindent
 \textbf{Inter-Router/Switch Interfaces} \\
 Interfaces between router-router and switch-router (and vice versa) are assigned
@@ -46,8 +50,47 @@ Switch ports are statically assigned, as needed, within the address space of
 \noindent
 \textbf{Static Hosts} \\
 Special hosts (specific services, such as DHCP, etc.) are assigned IP addresses 
-statically within the address space of 10.1.160.0/24 for internal services and
-within the address space of 10.1.170.0/24 for DMZ services. \\
+statically within the address space of 10.1.160.0/24 for internal services, \\
+
+\begin{center}
+	\begin{tabular}[m]{| c | c |}
+		\hline
+		\multicolumn{2}{|c|}{Server Zone}\\
+		\hline
+		\textbf{Addresses} & \textbf{Service}\\
+		\hline
+		10.1.160.1/24 & DHCP \\
+		\hline
+		10.1.160.2/24 & DNS \\
+		\hline
+		10.1.160.3/24 & Active Directory \\
+		\hline
+		10.1.160.4/24 & Database \\
+		\hline
+		10.1.160.5/24 & NFS \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\vspace{1em}
+
+and within the address space of 10.1.170.0/24 for DMZ services. \\
+
+\begin{center}
+	\begin{tabular}[m]{| c | c |}
+		\hline
+		\multicolumn{2}{|c|}{DMZ Zone}\\
+		\hline
+		\textbf{Addresses} & \textbf{Service}\\
+		\hline
+		10.1.170.1/24 & Web \\
+		\hline
+		10.1.170.2/24 & SMTP \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\vspace{1em}
 
 \noindent
 \textbf{Workstation Hosts} \\
