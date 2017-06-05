@@ -1,0 +1,100 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% start of AD writeup %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\subsection{Active Directory}
+We chose to use OpenLDAP as our active directory protocol.
+
+\begin{itemize}
+	
+	\item sudo apt-get install slapd ldap-utils
+	
+\end{itemize}
+
+\noindent This will prompt you administrator password for the administrator LDAP 
+account.
+After changing some recommended setting we then enter:
+
+\begin{itemize}
+	\item dpkg-reconfigure slapd
+\end{itemize}
+
+\noindent The above command reconfigures with the updated information we entered. After 
+running this command we are then asked for numerous pieces of information
+
+\begin{itemize}
+	\item DNS domain name
+	\item Organization name (ACME)
+	\item LDAP admin password which we created earlier
+	\item Selection of backend database. 
+\end{itemize}
+
+\noindent After the steps above we then test the OpenLDAP by running:
+
+\begin{itemize}
+	\item ldapsearch -x
+\end{itemize}
+
+\noindent If the ‘Success’ message outputs, then Congratulations! Our LDAP 
+Server is working!! \\
+
+\noindent Now to install the LDAP Server Administration portion. Since we will 
+have a team of users that might not be great with computers, we will go with
+the GUI tool. Which will help the manage and configure the LDAP server.
+We install it with the following command:
+
+\begin{itemize}
+	\item sudo apt-get install phpldapadmin
+\end{itemize}
+
+\noindent We then have to set symbolic link for the phpldapadmin directory:
+
+\begin{itemize}
+	\item ln -s /usr/share/phpldapadmin/ /var/www/html/phpldapadmin
+\end{itemize}
+
+\noindent We then need to edit the config.php file for setting correct time 
+zone:
+
+\begin{itemize}
+	\item vim /etc/phpldapadmin/config.php
+\end{itemize}
+
+\noindent We will look for a line: 
+\begin{itemize}
+	\item \begin{verbatim}
+	$config->custom->appearance['timezone'] = ;
+	\end{verbatim} 
+\end{itemize} 
+
+\noindent Change it to ACME Pennsylvania: 
+\begin{itemize}
+	\item \begin{verbatim}
+	$$config->custom->appearance['timezone'] = 'US/Pennsylvania';
+	\end{verbatim}
+\end{itemize}
+
+\noindent Lastely we need to find and replace the domain names with our own. 
+Find "Define LDAP Servers" section with in config file and 
+change the following lines:
+\begin{verbatim}
+	// Set your LDAP server name //
+	$servers->setValue('server','name','Unixmen LDAP Server');
+	
+	// Set your LDAP server IP address // 
+	$servers->setValue('server','host','192.168.1.103');
+	
+	// Set Server domain name //
+	$servers->setValue('server','base',array('dc=unixmen,dc=local'));
+	
+	// Set Server domain name again//
+	$servers->setValue('login','bind_id','cn=admin,dc=unixmen,dc=local');
+\end{verbatim}
+
+\noindent We need to restart the apache service using:
+\begin{itemize}
+	\item systemctl restart apache2
+\end{itemize}
+
+\noindent Now make sure port "80" and port "389" are open in the 
+firewall/router config and we are finished.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% end of AD writeup %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 

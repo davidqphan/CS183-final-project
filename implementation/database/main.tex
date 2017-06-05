@@ -1,0 +1,54 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% start of database writeup %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\subsection{Database}
+We are going with a MariaDB database for ACME as it widely used, easily 
+maintainable, and secure. In order to set up the MariaDB database we would
+ need to install it both the client and server packages.
+
+\begin{itemize}
+
+\item sudo apt-get install mariadb-server
+
+\end{itemize}
+
+\noindent After running the installation of MariaDB we then would need to set 
+up our admin user so we are then able to populate the database with data that 
+ACME CORP needs to be stored. 
+
+\noindent By running:
+
+\begin{itemize}
+\item sudo mysql\_secure\_installation \\
+\end{itemize}
+
+\noindent We are able to do all of the following: 
+
+\begin{itemize}
+\item set root password
+\item disable remote root login
+\item remove test database
+\item remove anonymous users and
+\item reload privileges
+\end{itemize}
+
+\noindent After adding the data that needs to be stored we would then set up 
+the user accounts and privileges for the HR department as they are the only 
+department needing access to the database.
+
+\begin{itemize}
+
+\item MariaDB $>$ CREATE USER frankHR@'localhost' IDENTIFIED BY 'password'
+
+\item MariaDB $>$ GRANT ALL PRIVILEGES on employees.* to frankHR@'\%';
+
+\item MariaDB $>$ FLUSH PRIVILEGES; 
+
+\end{itemize}
+
+\noindent By the above commands we created a user account from Frank from HR 
+and then have given Frank privileges to access the database 'employees'. 
+Following this same style we would be able to add new tables and users and also
+ give and take away privileges based on needs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% end of database writeup %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
