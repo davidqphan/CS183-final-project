@@ -35,7 +35,7 @@ event that physical separation is not feasible), while maintaining separation.
 \noindent
 \textbf{Inter-Router/Switch Interfaces} \\
 Interfaces between router-router and switch-router (and vice versa) are assigned
-addresses with a CIDR of /30, and the address space 10.1.2.0/24 is reserved
+addresses with a CIDR of /30. The address space 10.1.2.0/24 is reserved
 specifically for these interfaces.  \\
 
 \noindent
@@ -45,13 +45,16 @@ Switch ports are statically assigned, as needed, within the address space of
 
 \noindent
 \textbf{Static Hosts} \\
-Special host IP addresses (specific services, such as DHCP, etc.) are 
-statically within the address space of 10.1.160.0/24. \\
+Special hosts (specific services, such as DHCP, etc.) are assigned IP addresses 
+statically within the address space of 10.1.160.0/24 for internal services and
+within the address space of 10.1.170.0/24 for DMZ services. \\
 
 \noindent
-\textbf{Department Hosts} \\
-Department host (workstations) IP addresses are dynamically assigned by the DHCP
-server. \\
+\textbf{Workstation Hosts} \\
+Workstation IP addresses are dynamically assigned by the DHCP server. 
+Workstations are configured to use the IP of the switch port that that they are
+physically connected to as their gateway to ensure that they connect to the 
+network only via the preassigned switch port. \\
 
 Through our topology we have upgraded from an all layer 2 network to a 
 combination of layer 2 and layer 3. Thus allowing for a more robust and "smart" 
