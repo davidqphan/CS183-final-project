@@ -1,1 +1,169 @@
-\subsection{NFS}
+\subsection{Network File System}
+The Network File System (NFS) service for Acme Corp. relies on the in-built 
+support for NFS baked into the Linux kernel. 
+
+\subsubsection{Network/Interface Information}
+\textbf{Network Gateway} \\
+The NFS server itself connects to the network through Fa0/5 of Switch 6 and is 
+a member of the Acme Corp. "Server Zone". The default gateway for the NFS 
+server is the static IP for Fa0/5 on the \textbf{10.1.10.0/24} subnet, TBD. \\
+
+\noindent
+\textbf{IP Address} \\
+The NFS server is a member of the Internal Services ("Server Zone"), and is
+likewise configured on subnet \textbf{10.1.160.x}, with a static IP address of 
+\textbf{10.1.160.5}. \\
+
+\noindent
+\textbf{Assumption!}: The upgraded network requirements did not specify if Acme 
+Corp. user directories are hosted from the NFS server. It is assumed that
+business operations require departments to share files in the specific
+department shared directory and that users will only store personal files in
+their own home directories. With this assumption in mind, only
+department-specific shares are configured on the NFS server.
+
+\subsubsection{Server Setup/Configuration}
+To enable the NFS functionality of the Linux kernel, the
+\lstinline$nfs-kernel-server$ package must be installed on the server.
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}, language=bash]
+ $ apt install nfs-kernel-server
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+Additionally, some config files must be modified from the defaults. \\
+
+\begin{lstlisting}
+ /etc/idmapd.conf
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+The only necessary change to this file is assigning the Acme Corp. domain. \\
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}]
+ Domain = acme.com
+\end{lstlisting}
+
+\begin{lstlisting}
+ /etc/exports
+\end{lstlisting}
+
+\noindent
+The exports file defines which directories will be exported and to which
+user groups. Per the upgraded network requirements, the NFS shares are assigned 
+only to the respective subnets for which they are "allowed visibility". \\
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}]
+ # mounts Executive share to IPs on the Executive VLAN
+ /home/exec 10.1.110.0/24(rw)
+
+ # mounts HR share to IPs on the Executive, and HR VLANs
+ /home/hr 10.1.110.0/24(rw) 10.1.120.0/24(rw)
+
+ # mounts R&D share to IPs on the Executive, HR, 
+ # R&D, and Engineering VLANs
+ /home/rnd 10.1.110.0/24(rw) 10.1.120.0/24(rw) \
+     10.1.130.0/24(rw) 10.1.140.0/24(rw)
+
+ # mounts Engineering share to IPs on the Executive, 
+ # HR, R&D, and Engineering VLANs
+ /home/engr 10.1.110.0/24(rw) 10.1.120.0/24(rw) \
+     10.1.130.0/24(rw) 10.1.140.0/24(rw)
+
+ # mounts Sales share to IPs on the Executive, HR, 
+ # and Sales VLANs
+ /home/sales 10.1.110.0/24(rw) 10.1.120.0/24(rw) \
+     10.1.150.0/24(rw)
+\end{lstlisting}
+
+\subsubsection{Client Setup/Configuration}
+To enable the NFS functionality on each client workstation, the
+\lstinline$nfs-client$ package must be installed on each respective workstation.
+\\
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}, language=bash]
+ $ apt install nfs-client
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+Additionally, some config files must be modified from the defaults. \\
+
+\begin{lstlisting}
+ /etc/idmapd.conf
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+The only necessary change to this file is assigning NFS server domain (as
+configured by the DNS). \\
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}]
+ Domain = nfs.acme.com
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+Each client must be configured to mount the share on system boot. This can be
+done by editing the following file on the client: \\
+\begin{lstlisting}
+ /etc/fstab
+\end{lstlisting}
+\vspace{1em}
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}]
+ # [share] is a place holder for the appropriate 
+ # department share folder
+ nfs.acme.com:/home/[share]  /home/[share]   nfs defaults 0 0
+\end{lstlisting}
+* Some clients may require a line for each share that must be mounted. For
+example, an Executive client must mount all network shares so the client 
+configuration might look like: \\
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}]
+ nfs.acme.com:/home/exec     /home/exec   nfs defaults 0 0
+ nfs.acme.com:/home/hr       /home/hr     nfs defaults 0 0
+ nfs.acme.com:/home/rnd      /home/rnd    nfs defaults 0 0
+ nfs.acme.com:/home/engr     /home/engr   nfs defaults 0 0
+ nfs.acme.com:/home/sales    /home/sales  nfs defaults 0 0
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+Additionally, each client must be configured with the \lstinline$autofs$ 
+package. \\
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}, language=bash]
+ $ apt install autofs
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+And the following files must be edited, respectively: \\
+
+\begin{lstlisting}
+ /etc/auto.master
+\end{lstlisting}
+\vspace{1em}
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}]
+ /-  /etc/auto.mount
+\end{lstlisting}
+
+\begin{lstlisting}
+ /etc/auto.mount
+\end{lstlisting}
+\vspace{1em}
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}]
+ /home/[share] -fstype=nfs,rw nfs.acme.com:/home/[share]
+\end{lstlisting}
+* \lstinline$[share]$ is a place holder for each share that must be mounted, 
+as before.
+\vspace{1em}
+
+\noindent
+Finally, a directory should be created on each respective client for each NFS
+share that will be mounted. \\
