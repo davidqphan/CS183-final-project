@@ -5,9 +5,9 @@ We are going with a MariaDB database for ACME as it widely used, easily
 maintainable, and secure. In order to set up the MariaDB database we would
 need to install it both the client and server packages.
 
-\begin{itemize}
-\item sudo apt-get install mariadb-server
-\end{itemize}
+\begin{lstlisting}[language=bash] 
+  $ sudo apt-get install mariadb-server
+\end{lstlisting}
 
 \noindent After running the installation of MariaDB we then would need to set 
 up our admin user so we are then able to populate the database with data that 
@@ -15,11 +15,11 @@ ACME CORP needs to be stored. \\
 
 \noindent By running:
 
-\begin{itemize}
-\item sudo mysql\_secure\_installation \\
-\end{itemize}
+\begin{lstlisting}[language=bash] 
+  $ sudo mysql_secure_installation
+\end{lstlisting}
 
-\vspace{-1em}
+\vspace{.5em}
 
 \noindent We are able to do all of the following: 
 
@@ -35,15 +35,15 @@ ACME CORP needs to be stored. \\
 the user accounts and privileges for the HR department as they are the only 
 department needing access to the database.
 
-\begin{itemize}
+\begin{lstlisting}[language=bash]
+  MariaDB > CREATE USER frankHR@'localhost' IDENTIFIED BY 'password'
 
-\item MariaDB $>$ CREATE USER frankHR@'localhost' IDENTIFIED BY 'password'
+  MariaDB > GRANT ALL PRIVILEGES on employees.* to frankHR@'\%';
 
-\item MariaDB $>$ GRANT ALL PRIVILEGES on employees.* to frankHR@'\%';
+  MariaDB > FLUSH PRIVILEGES; 
+\end{lstlisting}
 
-\item MariaDB $>$ FLUSH PRIVILEGES; 
-
-\end{itemize}
+\vspace{.5em}
 
 \noindent By the above commands we created a user account from Frank from HR 
 and then have given Frank privileges to access the database 'employees'. 
