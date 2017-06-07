@@ -9,6 +9,8 @@ We chose to use OpenLDAP as our active directory protocol.
 	
 \end{itemize}
 
+\vspace{.5em}
+
 \noindent This will prompt you administrator password for the administrator LDAP 
 account.
 After changing some recommended setting we then enter:
@@ -16,6 +18,8 @@ After changing some recommended setting we then enter:
 \begin{itemize}
 	\item dpkg-reconfigure slapd
 \end{itemize}
+
+\vspace{.5em}
 
 \noindent The above command reconfigures with the updated information we entered. After 
 running this command we are then asked for numerous pieces of information
@@ -27,14 +31,18 @@ running this command we are then asked for numerous pieces of information
 	\item Selection of backend database. 
 \end{itemize}
 
+\vspace{.5em}
+
 \noindent After the steps above we then test the OpenLDAP by running:
 
 \begin{itemize}
 	\item ldapsearch -x
 \end{itemize}
 
+\vspace{.5em}
+
 \noindent If the ‘Success’ message outputs, then Congratulations! Our LDAP 
-Server is working!! \\
+Server is working!!\\ 
 
 \noindent Now to install the LDAP Server Administration portion. Since we will 
 have a team of users that might not be great with computers, we will go with
@@ -45,11 +53,15 @@ We install it with the following command:
 	\item sudo apt-get install phpldapadmin
 \end{itemize}
 
+\vspace{.5em}
+
 \noindent We then have to set symbolic link for the phpldapadmin directory:
 
 \begin{itemize}
 	\item ln -s /usr/share/phpldapadmin/ /var/www/html/phpldapadmin
 \end{itemize}
+
+\vspace{.5em}
 
 \noindent We then need to edit the config.php file for setting correct time 
 zone:
@@ -58,19 +70,25 @@ zone:
 	\item vim /etc/phpldapadmin/config.php
 \end{itemize}
 
-\noindent We will look for a line: 
+\vspace{.5em}
+
+\noindent We will look for a line:
 \begin{itemize}
 	\item \begin{verbatim}
 	$config->custom->appearance['timezone'] = ;
 	\end{verbatim} 
 \end{itemize} 
 
-\noindent Change it to ACME Pennsylvania: 
+\vspace{.5em}
+
+\noindent Change it to ACME Pennsylvania:
 \begin{itemize}
 	\item \begin{verbatim}
 	$$config->custom->appearance['timezone'] = 'US/Pennsylvania';
 	\end{verbatim}
 \end{itemize}
+
+\vspace{.5em}
 
 \noindent Lastely we need to find and replace the domain names with our own. 
 Find "Define LDAP Servers" section with in config file and 
@@ -89,10 +107,14 @@ change the following lines:
 	$servers->setValue('login','bind_id','cn=admin,dc=unixmen,dc=local');
 \end{verbatim}
 
+\vspace{.5em}
+
 \noindent We need to restart the apache service using:
 \begin{itemize}
 	\item systemctl restart apache2
 \end{itemize}
+
+\vspace{.5em}
 
 \noindent Now make sure port "80" and port "389" are open in the 
 firewall/router config and we are finished.
