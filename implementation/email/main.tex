@@ -15,7 +15,7 @@ our external SMTP provider, SendGrid.
 	 \textbf{General type of mail configuration.} Select \textbf{Internet
 		Site.}
  }
- \item {Enter the fully qualified name of your domain, \textbf{fqdn.acmecorp.com}
+\item {Enter the fully qualified name of your domain,\textbf{fqdn.acmecorp.com}
  }
  \item {Once the installation is finished, edit the \textbf{main.cf} file with
 	 your favorite text editor.
@@ -50,7 +50,7 @@ our external SMTP provider, SendGrid.
    \begin{lstlisting}[language=bash]
  $ sudo postmap /etc/postfix/sasl_passwd 
    \end{lstlisting}
-   If successful, there should be a new file generated, \textbf{sasl\_passwd.db}
+If successful, there should be a new file generated, \textbf{sasl\_passwd.db}
 		in the \textbf{/etc/postfix/} directory.
  }
 \end{enumerate}
@@ -112,7 +112,7 @@ our external SMTP provider, SendGrid.
 \subsubsection{Design Justifications}
 We connected our server to a mailing service, SendGrid because it helps
 AcmeCorp avoid pitfalls like having our server IP getting blacklisted by
-anti-spam services. We chose port 587 (mail submission agent) for our email client to email server
-communication, because the MSA accepts email after authentication. It helps
-stop outgoing spam when netmasters of DUL ranges can block outgoing connections
-to the SMTP port (port 25).
+anti-spam services. We chose port 587 (mail submission agent) for our email
+client to email server communication, because the MSA accepts email after 
+authentication. It helps stop outgoing spam when netmasters of DUL ranges can 
+block outgoing connections to the SMTP port (port 25).
