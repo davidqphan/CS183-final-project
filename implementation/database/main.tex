@@ -36,7 +36,6 @@ the user accounts and privileges for the HR department as they are the only
 department needing access to the database.
 
 \begin{lstlisting}[language=bash]
-
   MariaDB > CREATE USER frankHR@'localhost' IDENTIFIED BY 'password'
 
   MariaDB > GRANT ALL PRIVILEGES on employees.* to frankHR@'\%';
