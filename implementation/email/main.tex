@@ -1,1 +1,118 @@
 \subsection{Email}
+
+For our email setup, we are configuring a Postfix server to send email through
+our external SMTP provider, SendGrid.
+
+\subsubsection{Installing Postfix}
+
+\begin{enumerate}
+ \item { Install Postfix with the following command:
+  \begin{lstlisting}[language=bash] 
+  $ sudo apt-get install postfix
+   \end{lstlisting}
+ }
+ \item { During installation, a prompt will appear asking for your
+	 \textbf{General type of mail configuration.} Select \textbf{Internet
+		Site.}
+ }
+ \item {Enter the fully qualified name of your domain, \textbf{fqdn.acmecorp.com}
+ }
+ \item {Once the installation is finished, edit the \textbf{main.cf} file with
+	 your favorite text editor.
+   \begin{lstlisting}[language=bash]
+ $ sudo vim /etc/postfix/main.cf
+   \end{lstlisting}
+ }
+ \item {Set \textbf{myhostname} parameter to be configured with your server's
+	 FQDN:
+   \begin{lstlisting}[language=bash]
+ myhostname = fqdn.acmecorp.com
+   \end{lstlisting}
+ }
+\end{enumerate}
+
+\subsubsection{How to configure SMTP Usernames and Passwords}
+
+\begin{enumerate}
+\item { Open or create the \textbf{/etc/postfix/sasl\_passwd} file,
+		using your favorite text editor: 
+  \begin{lstlisting}[language=bash]
+ $ sudo vim /etc/postfix/sasl_passwd
+   \end{lstlisting}
+ }
+ \item { Add your destination (SMTP Host), username, and password in the
+	 following format: 
+  \begin{lstlisting}[language=bash]
+ [smtp.sendgrid.net]:587 username:password 
+   \end{lstlisting}
+ }
+ \item { Create the hash db file for Postfix by running the command:
+   \begin{lstlisting}[language=bash]
+ $ sudo postmap /etc/postfix/sasl_passwd 
+   \end{lstlisting}
+   If successful, there should be a new file generated, \textbf{sasl\_passwd.db}
+		in the \textbf{/etc/postfix/} directory.
+ }
+\end{enumerate}
+
+\subsubsection{How to secure your Password and Hash Database Files}
+
+\begin{enumerate}
+ \item { We change the permissions of \textbf{/etc/postfix/sasl\_passwd}
+		and \textbf{/etc/postfix/sasl.passwd.db} so that only the
+		\textbf\textit{root} user can read or write to the file. Run
+		the commands:
+  \begin{lstlisting}[language=bash]
+ $ sudo chown root:root /etc/postfix/sasl_passwd 
+ $ sudo chown root:root /etc/postfix/sasl_passwd.db
+ $ sudo chmod 0600 /etc/postfix/sasl_passwd
+ $ sudo chmod 0600 /etc/postfix/sasl_passwd.db
+   \end{lstlisting}
+ }
+\end{enumerate}
+
+\subsubsection{How to configure the Relay Server}
+
+\begin{enumerate}
+ \item { Open the \textbf{/etc/postfix/main.cf} file with your favorite
+		text editor:
+  \begin{lstlisting}[language=bash]
+ $ sudo vim /etc/postfix/main.cf 
+   \end{lstlisting}
+ }
+ \item { Update the \textbf{relayhost} parameter to show your external SMTP
+	 relay host.
+  \begin{lstlisting}[language=bash]
+  relayhost = [smtp.sendgrid.net]:587 
+   \end{lstlisting}
+ }
+ \item {At the end of the file, add the following parameters to enable
+	 authentication:
+ \begin{lstlisting}[language=bash]
+ # enable SASL authentication
+ smtp_sasl_auth_enable = yes
+ # disallow methods that allow anonymous authentication.
+ smtp_sasl_security_options = noanonymous
+ # where to find sasl_passwd
+ smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+ # enable STARTTLS encryption
+ smtp_use_tls = yes
+ # where to find CA certificates
+ smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+ \end{lstlisting}
+ Save your changes.
+}
+ \item { Restart Postfix, by running the command:
+ \begin{lstlisting}[language=bash]
+ $ sudo service postfix restart
+ \end{lstlisting}
+ }
+\end{enumerate}
+
+\subsubsection{Design Justifications}
+We connected our server to a mailing service, SendGrid because it helps
+AcmeCorp avoid pitfalls like having our server IP getting blacklisted by
+anti-spam services. We chose port 587 (mail submission agent) for our email client to email server
+communication, because the MSA accepts email after authentication. It helps
+stop outgoing spam when netmasters of DUL ranges can block outgoing connections
+to the SMTP port (port 25).
