@@ -2,6 +2,14 @@
 The Network File System (NFS) service for Acme Corp. relies on the in-built 
 support for NFS baked into the Linux kernel. 
 
+\noindent
+\textbf{Assumption!}: The upgraded network requirements did not specify if Acme 
+Corp. user directories are hosted from the NFS server. It is assumed that
+business operations require departments to share files in the specific
+department shared directory and that users will only store personal files in
+their own home directories. With this assumption in mind, only
+department-specific shares are configured on the NFS server.
+
 \subsubsection{Network/Interface Information}
 \textbf{Network Gateway} \\
 The NFS server itself connects to the network through Fa0/5 of Switch 6 and is 
@@ -14,20 +22,13 @@ The NFS server is a member of the Internal Services ("Server Zone"), and is
 likewise configured on subnet \textbf{10.1.160.x}, with a static IP address of 
 \textbf{10.1.160.5}. \\
 
-\noindent
-\textbf{Assumption!}: The upgraded network requirements did not specify if Acme 
-Corp. user directories are hosted from the NFS server. It is assumed that
-business operations require departments to share files in the specific
-department shared directory and that users will only store personal files in
-their own home directories. With this assumption in mind, only
-department-specific shares are configured on the NFS server.
-
 \subsubsection{Server Setup/Configuration}
 To enable the NFS functionality of the Linux kernel, the
 \lstinline$nfs-kernel-server$ package must be installed on the server.
 
-\begin{lstlisting}[backgroundcolor=\color{Gray}, language=bash]
- $ apt install nfs-kernel-server
+\begin{lstlisting}[language=bash, backgroundcolor=\color{Gray}, 
+escapeinside={(*}{*)}]
+ (*\#*) apt install nfs-kernel-server
 \end{lstlisting}
 \vspace{1em}
 
@@ -84,8 +85,9 @@ To enable the NFS functionality on each client workstation, the
 \lstinline$nfs-client$ package must be installed on each respective workstation.
 \\
 
-\begin{lstlisting}[backgroundcolor=\color{Gray}, language=bash]
- $ apt install nfs-client
+\begin{lstlisting}[language=bash, backgroundcolor=\color{Gray}, 
+escapeinside={(*}{*)}]
+ (*\#*) apt install nfs-client
 \end{lstlisting}
 \vspace{1em}
 
@@ -117,7 +119,7 @@ done by editing the following file on the client: \\
 \begin{lstlisting}[backgroundcolor=\color{Gray}]
  # [share] is a place holder for the appropriate 
  # department share folder
- nfs.acme.com:/home/[share]  /home/[share]   nfs defaults 0 0
+ nfs.acme.com:/home/[share]  /home/[share]  nfs defaults 0 0
 \end{lstlisting}
 * Some clients may require a line for each share that must be mounted. For
 example, an Executive client must mount all network shares so the client 
@@ -136,8 +138,9 @@ configuration might look like: \\
 Additionally, each client must be configured with the \lstinline$autofs$ 
 package. \\
 
-\begin{lstlisting}[backgroundcolor=\color{Gray}, language=bash]
- $ apt install autofs
+\begin{lstlisting}[language=bash, backgroundcolor=\color{Gray}, 
+escapeinside={(*}{*)}]
+ (*\#*) apt install autofs
 \end{lstlisting}
 \vspace{1em}
 
