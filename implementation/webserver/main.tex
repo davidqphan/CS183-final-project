@@ -1,1 +1,65 @@
-\subsection{Webserver}
+\subsection{Web server}
+The Acme Corp. web server must host a website that is accessible to Sales, and a 
+back-end database that is accessible to HR. \\
+
+\noindent
+\textbf{Assumption!}: The network upgrade requirements do not state what Sales 
+will be using the website for (i.e. Retrieving information only or also
+creating/updating information). At the time of the upgrade, it is assumed that
+the website is solely a tool that Sales uses to show-off Acme Corp's products 
+to potential clients. If the requirements of the network change in the future 
+and Sales requires CRUD functionality, it is trivial to create a new database 
+and setup appropriate accounts and permissions to allow such functionality.
+
+\subsubsection{Network/Interface Information}
+\textbf{Network Gateway} \\
+The web server connects to the network through Fa0/1 of Switch 7 and is a 
+member of the Acme Corp. "Demilitarized Zone". The default gateway for the web 
+server is the static IP for Fa0/1 on the \textbf{10.1.10.0/24} subnet, TBD. \\
+
+\noindent
+\textbf{IP Address} \\
+The web server is a member of the External Services (DMZ), and is likewise
+configured on the subnet 10.1.170.x, with a static IP address of
+\textbf{10.1.160.1}.
+
+\subsubsection{Server Setup/Configuration}
+The Acme Corp. web server will run a LAMP stack using Apache and PHP. The
+following will install the necessary packages on the web server (the database 
+is installed on a separate server, so it is not a required package on the web
+server). \\
+
+\begin{lstlisting}[language=bash, backgroundcolor=\color{Gray}, 
+escapeinside={(*}{*)}]
+ (*\#*) apt install apache2 php7.0 libapache2-mod-php7.0 \
+        php7.0-mcrypt php7.0-mysql
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+Additionally, a few default files should be edited as demonstrated below. \\
+
+\begin{lstlisting}
+ /etc/apache2/sites-enabled/000-default.conf
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+ServerAdmin directive should be changed to "systems@acme.com". \\
+
+\begin{lstlisting}
+ /etc/apache2/apache2.conf
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+Remove \lstinline$FollowSymLinks$ from the \lstinline$<Directory /var/www/>$
+scope. \\
+
+\noindent
+Additionally, the following should be appended to the end of the file: \\
+
+\begin{lstlisting}[language=bash, backgroundcolor=\color{Gray}]
+ServerName 'web.acme.com' 
+\end{lstlisting}
+\vspace{1em}
