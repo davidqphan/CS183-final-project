@@ -23,7 +23,9 @@ backup the contents of the \lstinline$/home$ directory via a cron job. \\
 Backups are created twice a day, using crontab and a job for rsync as shown: \\
 
 \begin{lstlisting}[backgroundcolor=\color{Gray}]
- 0 3,15 * * * rsync -az -e 'ssh' backups@10.1.160.5:/home /home
+ 0 3,15 * * * rsync -az -e 'ssh' backups@10.1.160.5:/home /home --delete
 \end{lstlisting}
 \vspace{1em}
 * passwordless login to the NFS server is possible using an RSA-pair SSH key.
+** backups are performed at 3am and 3pm, times at which business impact will 
+be minimal in case of nework lag.
