@@ -1,1 +1,35 @@
 \subsection{Configuration Management}
+Configuration Management for Acme Corp. is maintained using \lstinline$Puppet$. 
+This setup allows new workstations to be deployed on the network automatically
+with minor manual initialization (as described in \ref{puppet-client}).
+
+\subsubsection{Network/Interface Information}
+\textbf{Network Gateway} \\
+The Puppet application is hosted on the backups server and as such, inherits 
+the same network configuration described in section \ref{backups}. \\
+
+\noindent
+\textbf{IP Address} \\
+See \textbf{Network Gateway} subsection above.
+
+\subsubsection{Server Setup/Configuration}
+The backups server is configured as the \textit{Puppet Master} and contains 
+the config modules for the Puppet service. \\
+
+\noindent
+The Puppet modules configure all the applicable software and services on each 
+host when a new host is configured on the network. Puppet runs periodically to 
+check for new devices on the network with a \textit{Puppet Agent}. When a 
+Puppet Agent is found on the network on a host that has not been configured,
+Puppet securely logs in and configures the machine. \\
+
+\subsubsection{Client Setup/Configuration} \label{puppet-client}
+All new clients (host) on the network must be manually setup with the network 
+gateway that will provide access to the network (IP of physical Fa switch 
+port, in address space \textbf{10.1.10.0/24}). \\
+
+\noindent
+Additionally, Puppet (\textit{as Puppet Agent}) must be installed on each 
+client. Once these initial configuration are done, the Puppet Master will 
+automatically find the host and configure it to serve as a workstation for a 
+new user. \\
