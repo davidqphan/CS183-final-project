@@ -172,6 +172,17 @@ Any	& Any & Any & Any & Any & Any & Any & Deny \\
 \end{center}
 
 \subsubsection{Honey Pot}
+We are utilizing the honey pot scheme to detect attacks against our network. It
+is a decoy system setup to gather information about the attack, in order to
+learn how they probe and attempt to gain access to your systems. Keeping a
+record of the attacks allow for insight on how to better protect your network.
+It also gathers evidence required to aid in the prosecution of the
+attackers. We would set up a honey pot system in between the two firewalls we
+have set up because attackers would expect the DMZ servers to be there.
+Additionally, firewalls are complimentary as they provide activity-logging
+capabilities which can be used to detect how the attacker is attempting to get
+into our honey pot. Firewalls also provide notification capabilities so you can
+view intruder activity, in real-time.
 
 \subsubsection{Design Justifications}
 The upgraded Acme Corp. network is configured to DENY all ports by default, and
