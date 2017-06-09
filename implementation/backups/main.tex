@@ -1,1 +1,31 @@
 \subsection{Backups}
+Backups for Acme Corp. are handled by a dedicated server that periodically 
+backs up the disk storage of the NFS server throughout the day on onto a RAID 
+storage system.
+
+\subsubsection{Network/Interface Information}
+\textbf{Network Gateway} \\
+The backup server itself connects to the network through Fa0/6 of Switch 6 and 
+is a member of the Acme Corp. "Server Zone". The default gateway for the backup 
+server is the static IP for Fa0/6 on the \textbf{10.1.10.0/24} subnet, TBD. \\
+
+\noindent
+\textbf{IP Address} \\
+The backup server is a member of the Internal Services ("Server Zone"), and is
+likewise configured on subnet \textbf{10.1.160.x}, with a static IP address of 
+\textbf{10.1.160.6}. \\
+
+\subsubsection{Server Setup/Configuration}
+The backup server is configured to periodically login to the NFS server and
+backup the contents of the \lstinline$/home$ directory via a cron job. \\
+
+\noindent
+Backups are created twice a day, using crontab and a job for rsync as shown: \\
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}]
+ 0 3,15 * * * rsync -az -e 'ssh' backups@10.1.160.5:/home /home --delete
+\end{lstlisting}
+\vspace{1em}
+* passwordless login to the NFS server is possible using an RSA-pair SSH key.
+** backups are performed at 3am and 3pm, times at which business impact will 
+be minimal in case of nework lag.
