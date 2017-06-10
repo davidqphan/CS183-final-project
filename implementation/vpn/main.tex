@@ -1,15 +1,50 @@
-\subsection{VPN}
-To allow our large sales department to access the webserver internally and
-externally, we are using a VPN. It provides a secure and reliable private 
-connection between computer networks over an existing public network.
-There are two components required in our remote-access VPN configuration:
-\begin{itemize}
-	\item network access server: a user can connect to the NAS from the
-		Internet with the proper valid credentials to sign in to the
-		VPN.
-	\item client software: in order to establish and maintain a connection
-		to the VPN. It sets up the tunneled connection to the NAS,
-		which the user indicates by its Internet address. Most
-		operating systems have built-in software that can connect to
-		remote access VPNs.
-\end{itemize}
+\subsection{Virtual Private Network}
+To allow the Acme Corp. sales department to access the web server 
+externally, the upgraded network implementation includes a Virtual Private 
+Network (VPN) server. The VPN server provides a secure and reliable private 
+connection between computer networks over an existing public network. Once
+connected to the Acme Corp. network securely through the VPN, Sales users are
+able to access relevant network resources as if they were connected to a
+physical interface on the Acme Corp. Premises.
+
+\noindent
+There are two components required in the remote-access VPN configuration:
+\begin{enumerate}
+    \item Network Access Server (NAS): a user can connect to the NAS from the
+		Internet with valid credentials that are authenticated through the
+        Active Directory server to sign in to the VPN.
+	\item Client Software: in order to establish and maintain a connection
+		to the VPN. The client software sets up the tunneled connection to the 
+        NAS that can connect from any public network from the Internet. 
+\end{enumerate}
+
+\noindent
+Acme Corp.'s VPN server uses OpenVPN to create the VPN.
+\subsubsection{Network/Interface Information}
+\textbf{Network Gateway} \\
+The VPN server itself connects to the network through Fa0/3 of Switch 7 and is 
+a member of the Acme Corp. "Demilitarized Zone". The default gateway for the VPN 
+server is the static IP for Fa0/3 on the \textbf{10.1.10.0/24} subnet, TBD. \\
+
+\noindent
+\textbf{IP Address} \\
+The VPN server is a member of the External Services ("DMZ"), and is
+likewise configured on subnet \textbf{10.1.170.x}, with a static IP address of 
+\textbf{10.1.170.3}. \\
+
+\subsubsection{Server Setup/Configuration}
+OpenVPN is installed on the VPN server and authenticates users with Active
+Directory.
+
+\subsubsection{Client Setup/Configuration}
+OpenVPN may be used as a VPN client to connect to the Acme Corp. VPN server, 
+but any VPN bundled with an operating system may work as well. \\
+
+\subsubsection{VPN Connection Information}
+The Acme Corp. VPN can be reached from the Internet at the address:
+
+\begin{lstlisting}[backgroundcolor=\color{Gray}]
+ vpn.acme.com
+\end{lstlisting}
+*login and password are the same login and password configured in Active
+Directory.
