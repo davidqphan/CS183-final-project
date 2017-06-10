@@ -70,9 +70,9 @@ Trusted & Trusted & 10.1.120.0/24 & Any & Any & Any & Any & Allow \\
 Trusted & Trusted & 10.1.120.0/24 & 10.1.110.0/24 & Any & Any & Any & Deny \\
 \hline
 \rowcolor{Gray}
-Trusted & Server & Any & 10.1.160.0/24 & Any & 53, 389, 994 & Any &	Allow \\
+Trusted & Server & Any & 10.1.160.0/24 & Any & 53, 389, 994, 22 & Any &	Allow \\
 \hline
-Server & Trusted & 10.1.160.0/24 & Any & Any & 53, 389, 994 & Any & Allow \\
+Server & Trusted & 10.1.160.0/24 & Any & Any & 53, 389, 994, 22 & Any & Allow \\
 \hline
 \rowcolor{Gray}
 Trusted & Server & 10.1.120.0/24 & 10.1.160.0/24 & Any & 3306 & Any & Allow \\
@@ -123,10 +123,10 @@ From Zone & To Zone & SRC ADDR & DST ADDR & SRC Port & DST Port & App & Deny / A
 \rowcolor{Gray}
 Server & Server & Any & Any & Any & Any & Any & Allow \\
 \hline
-Trusted & Server & 10.1.0.0/24 & Any & Any & 53, 389, 994 & Any & Allow \\
+Trusted & Server & 10.1.0.0/24 & Any & Any & 53, 389, 994, 22 & Any & Allow \\
 \hline
 \rowcolor{Gray}
-Server & Trusted & 10.1.160.0/24 & 10.1.0.0/24 & Any & 53, 389, 994 & Any & Allow \\
+Server & Trusted & 10.1.160.0/24 & 10.1.0.0/24 & Any & 53, 389, 994, 22 & Any & Allow \\
 \hline
 DMZ & Trusted & 10.1.170.0/24 & 10.1.0.0/24 & Any &	25, 993, 80, 443 & Any & Allow \\
 \hline
@@ -163,6 +163,10 @@ Server & DMZ & 10.1.160.0/24 & 10.1.170.0/24 & Any & 3306 & Any & Allow \\
 \hline
 DMZ & Server & 10.1.170.0/24 & 10.1.160.0/24 & Any & 3306 & Any & Allow \\
 \hline
+\rowcolor{Gray}
+Internet & DMZ & Any & 10.1.170.3 & Any & 443, 943, 1194 & openvpn & Allow \\
+\hline
+DMZ & Internet & 10.1.170.3 & Any & Any & 443, 943, 1194 & openvpn & Allow \\
 \rowcolor{Gray}
 Any	& Any & Any & Any & Any & Any & Any & Deny \\
 \hline
