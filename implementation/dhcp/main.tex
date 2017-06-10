@@ -1,1 +1,96 @@
-\subsection{DHCP}
+\subsection{Dynamic Host Configuration Protocol}
+The Dynamic Host Configuration Protocol (DHCP) for Acme Corp. uses the 
+\lstinline$isc-dhcp-server$ package. \\
+
+\noindent
+The DHCP server serves requests for IP addresses for the user hosts 
+(workstations). Other hosts, such as members of the Internal/External zones,
+switches, and routers are manually configured with a static IP.
+
+\subsubsection{Network/Interface Information}
+\textbf{Network Gateway} \\
+The DHCP server itself connects to the network through Fa0/1 of Switch 6 and is 
+a member of the Acme Corp. "Server Zone". The default gateway for the DHCP 
+server is the static IP for Fa0/1 on the \textbf{10.1.10.0/24} subnet, TBD. \\
+
+\noindent
+\textbf{IP Address} \\
+The DHCP server is a member of the Internal Services ("Server Zone"), and is
+likewise configured on subnet \textbf{10.1.160.x}, with a static IP address of 
+\textbf{10.1.160.1}. \\
+
+\subsubsection{Server Setup/Configuration}
+To configure the DHCP server, the \lstinline$isc-dhcp-server$ package must be 
+installed on the host that will act as the DHCP server. \\
+
+\begin{lstlisting}[language=bash, backgroundcolor=\color{Gray}, 
+escapeinside={(*}{*)}]
+ (*\#*) apt install isc-dhcp-server
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+Additionally, some config files must be modified from the defaults. \\
+
+\begin{lstlisting}
+ /etc/dhcp/dhcpd.conf
+\end{lstlisting}
+\vspace{1em}
+
+\noindent
+The following changes should be made:
+\begin{lstlisting}[backgroundcolor=\color{Gray}]
+ option domain-name "acme.com";
+ option domain-name-servers 10.1.160.2;
+ subnet 10.1.110.0 netmask 255.255.255.0 {
+     default-lease-time 259200;
+     max-lease-time 259200;
+     pool {
+         range 10.1.110.1 10.1.110.254;
+
+     }
+
+ }
+ subnet 10.1.120.0 netmask 255.255.255.0 {
+     default-lease-time 259200;
+     max-lease-time 259200;
+     pool {
+         range 10.1.120.1 10.1.120.254;
+
+     }
+
+ }
+ subnet 10.1.130.0 netmask 255.255.255.0 {
+     default-lease-time 259200;
+     max-lease-time 259200;
+     pool {
+         range 10.1.130.1 10.1.130.254;
+
+     }
+
+ }
+ subnet 10.1.140.0 netmask 255.255.255.0 {
+     default-lease-time 259200;
+     max-lease-time 259200;
+     pool {
+         range 10.1.140.1 10.1.140.254;
+
+     }
+
+ }
+ subnet 10.1.150.0 netmask 255.255.255.0 {
+     default-lease-time 259200;
+     max-lease-time 259200;
+     pool {
+         range 10.1.150.1 10.1.150.254;
+
+     }
+
+ }
+\end{lstlisting}
+
+\subsubsection{Client Setup/Configuration}
+User hosts (workstations) must be manually configured to connect to the network
+through the static IP address of the respective Gateway (switch port) they are
+connected to. This ensures the workstation can connect to the network and
+request an IP address from the DHCP server.
